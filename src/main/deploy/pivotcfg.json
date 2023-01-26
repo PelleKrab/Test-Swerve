@@ -4,11 +4,6 @@
         "position": {
             "x": -10.125,
             "y": 12.65625
-    "FL": {
-        "name": "FL",
-        "position": {
-            "x": -10.125,
-            "y": 12.65625
         },
         "minVoltage": 0.018,
         "maxVoltage": 3.31,
@@ -27,12 +22,7 @@
         "position": {
             "x": 10.125,
             "y": 12.65625
-    "FR": {
-        "name": "FR",
-        "position": {
-            "x": 10.125,
-            "y": 12.65625
-        },
+            },
         "minVoltage": 0.012,
         "maxVoltage": 3.31,
         "driveChannel": 7,
@@ -45,11 +35,6 @@
         "reverseSteer": true,
         "reverseAngle": true
     },
-    "BL": {
-        "name": "BL",
-        "position": {
-            "x": -10.125,
-            "y": -12.65625
     "BL": {
         "name": "BL",
         "position": {
@@ -68,11 +53,6 @@
         "reverseSteer": true,
         "reverseAngle": true
     },
-    "BR": {
-        "name": "BR",
-        "position": {
-            "x": 10.125,
-            "y": -12.65625
     "BR": {
         "name": "BR",
         "position": {
