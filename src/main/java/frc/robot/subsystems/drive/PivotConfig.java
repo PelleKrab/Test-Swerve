@@ -15,12 +15,17 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PivotConfig {
-    
-    public static enum PivotId { FL, FR, BL, BR;
-        @JsonValue public String getName() { return this.name(); }
+
+    public static enum PivotId {
+        FL, FR, BL, BR;
+
+        @JsonValue
+        public String getName() {
+            return this.name();
+        }
     }
 
-    private static Map<PivotId,PivotConfig> cfgMap;
+    private static Map<PivotId, PivotConfig> cfgMap;
 
     private PivotId name;
     private Translation2d position;
@@ -38,20 +43,49 @@ public class PivotConfig {
     static {
         try {
             String cfgPath = Filesystem.getDeployDirectory() + "/pivotcfg.json";
-            cfgMap = new ObjectMapper().readValue(new File(cfgPath), new TypeReference<Map<PivotId,PivotConfig>>(){});
+            cfgMap = new ObjectMapper().readValue(new File(cfgPath), new TypeReference<Map<PivotId, PivotConfig>>() {
+            });
         } catch (Exception e) {
             cfgMap = null;
             e.printStackTrace();
         }
     }
 
-    public static PivotConfig getConfig (PivotId pivotId) {
+    public static PivotConfig getConfig(PivotId pivotId) {
         return cfgMap.get(pivotId);
     }
-    
+
+    public int getDriveChannel() {
+        return driveChannel;
+    }
+
+    public int getSteerChannel() {
+        return steerChannel;
+    }
+
+    public double getMinVoltage() {
+        return minVoltage;
+    }
+
+    public boolean isReverseAngle() {
+        return reverseAngle;
+    }
+
+    public double getOffset() {
+        return offset;
+    }
+
+    public boolean isReverseSteer() {
+        return reverseSteer;
+    }
+
+    public int getResolverDriveChannel() {
+        return resolverChannel;
+    }
+
     // @Getter
     // public static final class XYCoordinate {
-    //     private double x;
-    //     private double y;
+    // private double x;
+    // private double y;
     // }
 }

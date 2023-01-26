@@ -14,7 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 public class SwerveModule {
-	private static final double kWheelRadius = 0.0508; 
+	private static final double kWheelRadius = 0.0508;
 	private static final int kEncoderResolution = 4096;
 
 	private static final double kModuleMaxAngularVelocity = DriveSubsystem.kMaxAngularSpeed;
@@ -47,20 +47,20 @@ public class SwerveModule {
 		turningMotor = new CANSparkMax(cfg.getSteerChannel(), MotorType.kBrushless);
 
 		driveEncoder = driveMotor.getEncoder();
-		turningEncoder = new Resolver(cfg.getResolverChannel(), cfg.getMinVoltage(), cfg.getMaxVoltage(),
+		turningEncoder = new Resolver(cfg.getResolverDriveChannel(), cfg.getMinVoltage(), cfg.getMinVoltage(),
 				cfg.getOffset(), cfg.isReverseAngle());
 
 		// turningEncoder = new Resolver(cfg.getResolverChannel(), 2.5, 2.5,
-		// 		cfg.getOffset(), cfg.isReverseAngle());
+		// cfg.getOffset(), cfg.isReverseAngle());
 
-		driveMotor.setInverted(cfg.isReverseDrive());
+		driveMotor.setInverted(cfg.isReverseAngle());
 		turningMotor.setInverted(cfg.isReverseSteer());
 
 		// Set the distance per pulse for the drive encoder. We can simply use the
 		// distance traveled for one rotation of the wheel divided by the encoder
 		// resolution.
 		// driveEncoder.setPositionConversionFactor(2 * Math.PI * kWheelRadius *
-		// 0.10472); 
+		// 0.10472);
 		// driveEncoder.setVelocityConversionFactor(2 * Math.PI * kWheelRadius *
 		// 0.10472); //9 ft/s
 
@@ -154,7 +154,8 @@ public class SwerveModule {
 			turnOutput = 0;
 		}
 
-		// Logger.log((driveEncoder.getVelocity() * kWheelRadius * 0.10472) * 3.281 + "");
+		// Logger.log((driveEncoder.getVelocity() * kWheelRadius * 0.10472) * 3.281 +
+		// "");
 		// Logger.log(cfg.getName().getName() + " " + turningEncoder.toString());
 		// drivePIDController.calculate(driveEncoder.getVelocity(), flipDrive ?
 		// -state.speedMetersPerSecond : state.speedMetersPerSecond);
@@ -190,7 +191,8 @@ public class SwerveModule {
 		double vSetpoint = driveFeedforward.calculate(targetSpeed);
 		double driveOutput = drivePIDController.calculate(getVelocity(), vSetpoint);
 
-		// Logger.log((driveEncoder.getVelocity() * kWheelRadius * 0.10472) * 3.281 + "");
+		// Logger.log((driveEncoder.getVelocity() * kWheelRadius * 0.10472) * 3.281 +
+		// "");
 		// Logger.log(cfg.getName().getName() + " " + turningEncoder.toString());
 		// drivePIDController.calculate(driveEncoder.getVelocity(), flipDrive ?
 		// -state.speedMetersPerSecond : state.speedMetersPerSecond);

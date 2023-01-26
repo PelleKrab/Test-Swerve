@@ -27,16 +27,11 @@ import frc.robot.subsystems.indexer.commands.Outdex;
 import frc.robot.subsystems.leds.LedSubsystem;
 import frc.robot.subsystems.leds.commands.SabotageText;
 import frc.robot.subsystems.leds.commands.SetLeds;
-import frc.robot.subsystems.shooter.ShooterSubsystem;
-import frc.robot.subsystems.shooter.commands.ShootFountain;
-import frc.robot.subsystems.shooter.commands.SpinClose;
-import frc.robot.subsystems.shooter.commands.SpinDistance;
 
 public class RobotContainer {
     // The robot's subsystems
     public static final DriveSubsystem swerve = new DriveSubsystem();
     public static final IndexerSubsystem indexer = new IndexerSubsystem();
-    public static final ShooterSubsystem shooter = new ShooterSubsystem();
     public static final LedSubsystem leds = new LedSubsystem();
 
     // The driver's controller
@@ -78,7 +73,7 @@ public class RobotContainer {
      */
     public void configureButtonBindings() {
 
-        //Driver Buttons
+        // Driver Buttons
         JoystickButton startButton = new JoystickButton(joystick, 8);
         startButton.whenPressed(new ResetGyro(swerve));
         JoystickButton selectButton = new JoystickButton(joystick, 7);
@@ -94,19 +89,7 @@ public class RobotContainer {
 
         JoystickButton oLeftBumper = new JoystickButton(opJoystick, 5);
 
-        Button shooterTrigger = new Button() {
-
-            @Override
-            public boolean get() {
-                return shooter.atTargetRpm();
-            }
-
-        };
-
-        ConditionalCommand indexerSpeed = new ConditionalCommand(new IndexFast(indexer), new IndexShooter(indexer), shooter::isFastIndexer);
-        Command spin = new SpinDistance(shooter);
         Command shoot = new IndexShooter(indexer);
-        leftBumper.whileHeld(spin);
 
         Button down = new Button() {
             public boolean get() {
@@ -114,29 +97,23 @@ public class RobotContainer {
             }
         };
 
-        ParallelCommandGroup shootFountainCommandGroup = new ParallelCommandGroup(new IndexFast(indexer), new ShootFountain(shooter));
-        down.whileHeld(shootFountainCommandGroup);
-
         Button rightTrigger = new Button() {
-            
+
             public boolean get() {
                 return driverController.getRightTriggerAxis() > 0.1;
             }
 
         };
 
-        
         // rightTrigger.whenHeld(new Intake(intake, indexer));
 
         Button indexerSensorTriggered = new Button() {
             public boolean get() {
-                if(!rightTrigger.get() && (indexer.getProx1() == false && indexer.getProx2() == false)) {
-                   return false;
-                }
-                else if(leftBumper.get() || oLeftBumper.get()) {
+                if (!rightTrigger.get() && (indexer.getProx1() == false && indexer.getProx2() == false)) {
                     return false;
-                } 
-                else if(rightTrigger.get() || indexer.getProx1() == false) {
+                } else if (leftBumper.get() || oLeftBumper.get()) {
+                    return false;
+                } else if (rightTrigger.get() || indexer.getProx1() == false) {
                     return true;
                 } else {
                     return false;
@@ -145,22 +122,17 @@ public class RobotContainer {
         };
 
         Button leftTrigger = new Button() {
-            
+
             public boolean get() {
                 return driverController.getLeftTriggerAxis() > 0.1;
             }
 
         };
 
-
-
-        //Operator Buttons
+        // Operator Buttons
         // SpinnerStage2 stage2 = new SpinnerStage2(spinner);
         // SpinnerStage2 stage3 = new SpinnerStage3(spinner);
-
-        Command spinClose = new SpinClose(shooter);
-        // ParallelCommandGroup spinClose = new ParallelCommandGroup(new SpinClose(shooter), intakeDistance2);
-        oLeftBumper.whileHeld(spinClose);
+        // ParallelCommandGroup spinClose = new ParallelCommandGroup(new
 
         JoystickButton oAButton = new JoystickButton(opJoystick, 1);
         JoystickButton oBButton = new JoystickButton(opJoystick, 2);
@@ -170,37 +142,32 @@ public class RobotContainer {
 
         Button raiseClimber = new Button(() -> oRBButton.get() && oXButton.get());
 
-
-
         Button lowerClimber = new Button(() -> oRBButton.get() && oYButton.get());
 
-
         Button leftY = new Button() {
-            
+
             public boolean get() {
                 return Math.abs(operatorController.getLeftY()) > 0.15;
             }
 
         };
 
-
-        //TODO add spinner cancel option
+        // TODO add spinner cancel option
         // Button oRight = new Button() {
-        //     public boolean get() {
-        //         return driverController.getPOV() == 90;
-        //     }
+        // public boolean get() {
+        // return driverController.getPOV() == 90;
+        // }
         // };
-
-        
 
         // BooleanSupplier spinnerAction;
         // if(stage2.isScheduled()) {
-        //     spinnerAction = () -> true;
+        // spinnerAction = () -> true;
         // } else {
-        //     spinnerAction = () -> false;
+        // spinnerAction = () -> false;
         // }
 
-        // ConditionalCommand spinnerCancelCommand = new ConditionalCommand(stage2.cancel(), null, spinnerAction);
+        // ConditionalCommand spinnerCancelCommand = new
+        // ConditionalCommand(stage2.cancel(), null, spinnerAction);
 
     }
 
@@ -209,13 +176,12 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() { 
+    public Command getAutonomousCommand() {
 
         CommandScheduler.getInstance().clearButtons();
 
         swerve.updateOdometry();
         return null;
-
 
         // Run path following command, then stop at the end.
     }
